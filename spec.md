@@ -1,158 +1,115 @@
 # Description
 
-This part of CarePath covers Referral Management and Tracking. Providers submit referrals, review them, and share visit findings. Coordinators find delayed referrals and request missing information. Appointment booking, follow-up tasks, and patient-facing reminders are covered by the other team members. CarePath supports care coordination; it does not make clinical decisions.
+This part of CarePath covers Follow-up and Task Management. Nurses assign clear actions to patients, and patients complete them or upload requested documents. Task progress is recorded separately from referral and appointment progress. Reminders are handled by the patient communication functionality.
 
 # Goals
 
-1. Maintain continuity of care between providers.
-2. Help receiving providers deliver referred care.
-3. Prevent referrals from becoming delayed or incomplete.
+1. Support follow-up care after or between visits.
+2. Help patients manage and complete their next steps.
+3. Prevent delays caused by unfinished patient tasks.
 
 # Domain Model
 
 ## Actors
 
-- **Referring provider:** Creates a referral and receives visit findings.
-- **Receiving provider:** Reviews the referral and records the outcome.
-- **Referral coordinator:** Monitors progress and requests missing information.
-- **Patient:** May provide information requested for their referral.
+- **Nurse:** Assigns tasks with instructions and due dates.
+- **Patient:** Views and completes their assigned tasks.
 
 ## Objects
 
-- **Referral:** Identifier, patient, referring provider, receiving provider, requested service, reason, urgency, status, and last-update time.
-- **Referral review:** Provider decision, comments, reviewer, and review time.
-- **Supporting document:** A file linked to the referral and its patient.
-- **Information request:** Missing item, recipient, linked referral, response, and status: Awaiting response or Responded.
-- **Visit finding:** Provider-entered results linked to a referral and shared with the referring provider.
-- **Change history:** Who changed a referral, when, and its previous and new status.
+- **Follow-up task:** Identifier, patient, assigning nurse, instructions, due time, status, and optional referral link.
+- **Document requirement:** Indicates whether the patient must upload a document before completion.
+- **Supporting document:** Uploaded file, filename, uploader, upload time, and linked task.
+- **Task history:** Records assignment, status changes, and completion time.
+- **Referral:** Optional care context for the task; its patient must match the task's patient.
 
-Referral statuses include Submitted, Under review, Information required, Accepted, Declined, Redirected, and Completed. Providers control review decisions. A response to an information request does not automatically accept or complete the referral. Users must be signed in and have permission for the patient and action. Urgency values come from the organization's configured list.
+Task statuses are Open, Overdue, and Completed. An unfinished task becomes Overdue after its due time. Completing a task does not complete its referral. Users must be signed in and have permission for the patient and action. The organization configures allowed file types and the maximum upload size.
 
 # Functional Requirements
 
-## FR-R01: Submit a referral
+This file uses must statements to keep task behavior direct and testable.
 
-As a referring provider, I want to submit a referral in CarePath with the patient, destination provider, reason, urgency, and supporting information, so that I can keep referral information available.
+## FR-T01: Assign a follow-up task
 
-Patient, destination, requested service, reason, and urgency are required. CarePath creates an identifier and sets Submitted. Missing required information produces a field error without creating a submitted referral. Supports Goal 1. Tested by AC-R01.
+CarePath must let an authorized nurse assign a patient a task with instructions, a future due time, and an indication of whether a document is required.
 
-## FR-R02: Record a review decision
+- Instructions must not be blank.
+- Record the patient, nurse, due time, and initial status Open.
+- Show the task in the patient's task list.
 
-As a receiving provider, I want to review a referral in CarePath and record an acceptance, decline, or redirection with comments, so that I can keep referral decisions and outcomes recorded.
+Supports Goals 1 and 3. Tested by AC-T01.
 
-Only the current receiving provider may record the decision. Comments are required; redirection also requires a new destination. CarePath records the reviewer, time, and status change. Supports Goal 2. Tested by AC-R02.
+## FR-T02: Complete an assigned task
 
-## FR-R03: Share visit findings
+CarePath must let the assigned patient complete a task and upload a requested document when needed.
 
-As a receiving provider, I want to record visit findings in CarePath and share them with the referring provider, so that I can keep referral decisions and outcomes recorded.
+- A required document must be uploaded successfully before completion.
+- Reject files outside the configured type or size limits.
+- Set Completed and record the completion time.
+- Repeating completion must not create another completion or change its original time.
 
-Findings must not be blank. The receiving provider records them for an accepted referral. Final sharing includes confirmation that the service is complete and sets Completed. Supports Goals 1 and 2. Tested by AC-R03.
+Supports Goals 1 and 2. Tested by AC-T02.
 
-## FR-R04: Find referrals needing attention
+## FR-T03: Track task progress
 
-As a referral coordinator, I want to filter referrals in CarePath by urgency, missing information, and time since the last update, so that I can keep referrals moving forward.
+CarePath must show current task status and retain assignment and status-change history. An overdue task may still be completed. Task history must identify the actor and time of each change.
 
-Combined filters must match all selected conditions and show only accessible referrals. Missing information means an unanswered information request. Supports Goal 3. Tested by AC-R04.
-
-## FR-R05: Request missing information
-
-As a referral coordinator, I want to send a request for missing information through CarePath to the patient or referring provider and track its response, so that I can keep referrals moving forward.
-
-The missing item and recipient are required. Only the selected recipient may respond. CarePath links the response to the request and referral and records the sender and time. Supports Goal 3. Tested by AC-R05.
-
-## FR-R06: Keep referral updates consistent
-
-CarePath must record referral status changes in history, apply supported updates from trusted connected systems, and ignore duplicate external event identifiers. Unknown status mappings must be flagged for staff review without replacing the current status. Supports Goals 1 and 3. Tested by AC-R06.
+Supports Goals 2 and 3. Tested by AC-T03.
 
 # Acceptance Criteria
 
 All scenarios assume the actor is signed in and has permission unless stated otherwise.
 
-## AC-R01: Referral submission
+## AC-T01: Task assignment
 
 ```gherkin
-Feature: Submit a referral
-  Scenario: Submit a complete referral
-    Given a referring provider opens New referral
-    When the provider enters all required information and selects Submit
-    Then CarePath creates a referral with an identifier and status Submitted
-    And shows Referral details
+Feature: Assign a follow-up task
+  Scenario: Assign a valid task
+    Given a nurse can access a patient
+    When the nurse enters instructions and a future due time
+    And assigns the task to that patient
+    Then CarePath creates an Open task with the nurse and patient recorded
+    And shows it in the patient's task list
 
-  Scenario: Required information is missing
-    When the provider submits without a destination provider
-    Then CarePath shows a field error
-    And does not create a submitted referral
+  Scenario: Invalid task details
+    When the nurse submits blank instructions or a due time that is not in the future
+    Then CarePath shows a validation error and does not create the task
 ```
 
-## AC-R02: Review decision
+## AC-T02: Task completion
 
 ```gherkin
-Feature: Review a referral
-  Scenario: Accept a referral
-    Given the receiving provider is reviewing a referral
-    When the provider records acceptance with comments
-    Then CarePath sets Accepted and records the reviewer and time
+Feature: Complete an assigned task
+  Scenario: Complete a task with its document
+    Given a patient opens their assigned document task
+    When the patient uploads an allowed file and selects Mark complete
+    Then the task becomes Completed
+    And CarePath shows its completion time
 
-  Scenario: Redirect without a destination
-    When the receiving provider redirects a referral without a new destination
-    Then CarePath rejects the decision without changing the referral
+  Scenario: A required document is missing
+    Given a patient opens an Open task requiring a document
+    When the patient selects Mark complete without the document
+    Then CarePath explains that a document is required
+    And the task remains Open
+
+  Scenario: Invalid upload
+    When a patient uploads an unsupported or oversized file
+    Then CarePath rejects it without attaching it to the task
+
+  Scenario: Repeat completion
+    Given a task is already Completed
+    When its patient repeats the completion action
+    Then CarePath keeps the original completion and time
 ```
 
-## AC-R03: Visit findings
+## AC-T03: Task progress
 
 ```gherkin
-Feature: Share visit findings
-  Scenario: Share final findings
-    Given the receiving provider has an Accepted referral
-    When the provider enters findings and confirms service completion
-    And shares the findings with the referring provider
-    Then the referring provider can view the findings
-    And the referral becomes Completed
-```
-
-## AC-R04: Referral filtering
-
-```gherkin
-Feature: Find referrals needing attention
-  Scenario: Combine filters
-    Given Urgent is a configured urgency value
-    When a coordinator filters for Urgent, missing information, and 24 hours since update
-    Then results match all three conditions
-    And contain only referrals the coordinator can access
-```
-
-## AC-R05: Missing information
-
-```gherkin
-Feature: Request missing information
-  Scenario: Send and track a request
-    Given a referral is missing a document
-    When the coordinator describes the missing item and selects the patient as recipient
-    And sends the request
-    Then it appears as Awaiting response in Referral details
-    When that patient provides the requested document
-    Then CarePath links it to the request and marks it Responded
-    And does not automatically accept or complete the referral
-
-  Scenario: Recipient is missing
-    When the coordinator sends a request without a recipient
-    Then CarePath shows an error and sends nothing
-```
-
-## AC-R06: Referral updates
-
-```gherkin
-Feature: Keep referral updates consistent
-  Scenario: Record a status change
-    When an authorized referral status change is saved
-    Then its history records the actor, time, previous status, and new status
-
-  Scenario: Duplicate external update
-    Given an external event has already been processed
-    When the same source sends that event identifier again
-    Then CarePath makes no duplicate change
-
-  Scenario: Unknown external status
-    When a trusted connected system sends an unmapped status
-    Then CarePath flags it for review and keeps the current status
+Feature: Track task progress
+  Scenario: Complete an overdue task
+    Given an unfinished task has passed its due time and is shown as Overdue
+    When the patient completes it with any required document
+    Then it becomes Completed
+    And task history records the change, actor, and time
+    And the linked referral is not automatically completed
 ```
