@@ -1,158 +1,93 @@
 # Description
 
-This part of CarePath covers Referral Management and Tracking. Providers submit referrals, review them, and share visit findings. Coordinators find delayed referrals and request missing information. Appointment booking, follow-up tasks, and patient-facing reminders are covered by the other team members. CarePath supports care coordination; it does not make clinical decisions.
+CarePath supports Patient Guidance and Communication. Patients see referral progress and next steps and receive care reminders. Personal representatives can view information within their recorded authority. The other functionalities provide the referral, appointment, and task information. It presents provider-entered guidance and does not generate medical advice.
 
 # Goals
 
-1. Maintain continuity of care between providers.
-2. Help receiving providers deliver referred care.
-3. Prevent referrals from becoming delayed or incomplete.
+1. Help patients manage their care and understand next steps.
+2. Help personal representatives support the patient.
+3. Support follow-up care through timely reminders.
 
 # Domain Model
 
 ## Actors
 
-- **Referring provider:** Creates a referral and receives visit findings.
-- **Receiving provider:** Reviews the referral and records the outcome.
-- **Referral coordinator:** Monitors progress and requests missing information.
-- **Patient:** May provide information requested for their referral.
+- **Patient:** Views their care information and receives reminders.
+- **Personal representative:** Views permitted information for a patient within recorded authority.
+- **Healthcare staff:** Maintain the referral, appointment, and task information shown to patients.
 
 ## Objects
 
-- **Referral:** Identifier, patient, referring provider, receiving provider, requested service, reason, urgency, status, and last-update time.
-- **Referral review:** Provider decision, comments, reviewer, and review time.
-- **Supporting document:** A file linked to the referral and its patient.
-- **Information request:** Missing item, recipient, linked referral, response, and status: Awaiting response or Responded.
-- **Visit finding:** Provider-entered results linked to a referral and shared with the referring provider.
-- **Change history:** Who changed a referral, when, and its previous and new status.
+- **Referral summary:** Current status, last-update time, destination provider, and outstanding information requests.
+- **Appointment details:** Confirmed time, provider, location, and status.
+- **Task summary:** Instructions, due time, status, and required action.
+- **Representative authority:** Patient, representative, permitted information, and validity period.
+- **Notification:** Recipient, appointment or task, delivery channel, scheduled time, and delivery result.
+- **Contact preference:** The patient's recorded communication channel and contact details.
 
-Referral statuses include Submitted, Under review, Information required, Accepted, Declined, Redirected, and Completed. Providers control review decisions. A response to an information request does not automatically accept or complete the referral. Users must be signed in and have permission for the patient and action. Urgency values come from the organization's configured list.
+Users must be signed in before viewing care details. Patients see only their own records. Representatives may view only information covered by active authority; this does not grant permission to change records. Reminder timing is configured by the organization, and contact details come from the patient's recorded preference.
 
 # Functional Requirements
 
-## FR-R01: Submit a referral
+## FR-P01: View referral status and next steps
 
-As a referring provider, I want to submit a referral in CarePath with the patient, destination provider, reason, urgency, and supporting information, so that I can keep referral information available.
+As a patient, I want to view my referral status and next required action in CarePath, so that I can know and complete my next steps.
 
-Patient, destination, requested service, reason, and urgency are required. CarePath creates an identifier and sets Submitted. Missing required information produces a field error without creating a submitted referral. Supports Goal 1. Tested by AC-R01.
+Show current status, last update, outstanding requests, unfinished tasks, and any active appointment. If no patient action is needed, say so clearly. Supports Goal 1. Tested by AC-P01.
 
-## FR-R02: Record a review decision
+## FR-P02: Receive care reminders
 
-As a receiving provider, I want to review a referral in CarePath and record an acceptance, decline, or redirection with comments, so that I can keep referral decisions and outcomes recorded.
+As a patient, I want to receive CarePath reminders for upcoming appointments and due tasks, so that I can know and complete my next steps.
 
-Only the current receiving provider may record the decision. Comments are required; redirection also requires a new destination. CarePath records the reviewer, time, and status change. Supports Goal 2. Tested by AC-R02.
+Use the organization's configured timing and the patient's preferred channel. Record delivery results. Do not send reminders for canceled appointments or completed tasks, or send the same scheduled reminder twice. Email and text messages direct patients to CarePath without including clinical findings or documents. Supports Goals 1 and 3. Tested by AC-P02.
 
-## FR-R03: Share visit findings
+## FR-P03: View authorized care details
 
-As a receiving provider, I want to record visit findings in CarePath and share them with the referring provider, so that I can keep referral decisions and outcomes recorded.
+As a personal representative, I want to view the patient's referral status, appointments, and pending tasks in CarePath within my recorded authority, so that I can know the patient's next steps.
 
-Findings must not be blank. The receiving provider records them for an accepted referral. Final sharing includes confirmation that the service is complete and sets Completed. Supports Goals 1 and 2. Tested by AC-R03.
+Check authority on every request. Expired, revoked, or missing authority must not grant access. Supports Goal 2. Tested by AC-P03.
 
-## FR-R04: Find referrals needing attention
+## FR-P04: Apply access checks
 
-As a referral coordinator, I want to filter referrals in CarePath by urgency, missing information, and time since the last update, so that I can keep referrals moving forward.
+CarePath must verify the signed-in user's role and patient access before showing care details. Denied requests must return no patient information. These checks also apply to direct requests using record identifiers.
 
-Combined filters must match all selected conditions and show only accessible referrals. Missing information means an unanswered information request. Supports Goal 3. Tested by AC-R04.
-
-## FR-R05: Request missing information
-
-As a referral coordinator, I want to send a request for missing information through CarePath to the patient or referring provider and track its response, so that I can keep referrals moving forward.
-
-The missing item and recipient are required. Only the selected recipient may respond. CarePath links the response to the request and referral and records the sender and time. Supports Goal 3. Tested by AC-R05.
-
-## FR-R06: Keep referral updates consistent
-
-CarePath must record referral status changes in history, apply supported updates from trusted connected systems, and ignore duplicate external event identifiers. Unknown status mappings must be flagged for staff review without replacing the current status. Supports Goals 1 and 3. Tested by AC-R06.
+Supports Goals 1 and 2. Tested by AC-P04.
 
 # Acceptance Criteria
 
-All scenarios assume the actor is signed in and has permission unless stated otherwise.
+These criteria use short checks instead of Gherkin scripts.
 
-## AC-R01: Referral submission
+## AC-P01: View status and next steps
 
-```gherkin
-Feature: Submit a referral
-  Scenario: Submit a complete referral
-    Given a referring provider opens New referral
-    When the provider enters all required information and selects Submit
-    Then CarePath creates a referral with an identifier and status Submitted
-    And shows Referral details
+For FR-P01:
 
-  Scenario: Required information is missing
-    When the provider submits without a destination provider
-    Then CarePath shows a field error
-    And does not create a submitted referral
-```
+1. A patient viewing their referral sees its current status, last-update time, outstanding requests, unfinished tasks, and active appointment.
+2. If no request or task needs the patient's action, the screen says no action is currently required.
+3. The screen uses recorded care information and does not invent medical instructions.
 
-## AC-R02: Review decision
+## AC-P02: Receive reminders
 
-```gherkin
-Feature: Review a referral
-  Scenario: Accept a referral
-    Given the receiving provider is reviewing a referral
-    When the provider records acceptance with comments
-    Then CarePath sets Accepted and records the reviewer and time
+For FR-P02:
 
-  Scenario: Redirect without a destination
-    When the receiving provider redirects a referral without a new destination
-    Then CarePath rejects the decision without changing the referral
-```
+1. At a configured reminder time, an eligible appointment or task reminder uses the patient's recorded contact preference.
+2. Running the same reminder process again does not send the same scheduled reminder twice.
+3. A cancellation or task completion before sending suppresses the reminder.
+4. A confirmed reschedule replaces unsent reminders based on the old appointment time.
+5. Missing timing or contact settings prevents sending and records the reason.
+6. A delivery failure is recorded without claiming that the patient received the message.
 
-## AC-R03: Visit findings
+## AC-P03: Representative access
 
-```gherkin
-Feature: Share visit findings
-  Scenario: Share final findings
-    Given the receiving provider has an Accepted referral
-    When the provider enters findings and confirms service completion
-    And shares the findings with the referring provider
-    Then the referring provider can view the findings
-    And the referral becomes Completed
-```
+For FR-P03:
 
-## AC-R04: Referral filtering
+1. A representative with active authority sees only the permitted patient's information and permitted information categories.
+2. A representative with appointment-only authority cannot view referral or task details.
+3. Expired, revoked, or missing authority results in no patient information being returned.
 
-```gherkin
-Feature: Find referrals needing attention
-  Scenario: Combine filters
-    Given Urgent is a configured urgency value
-    When a coordinator filters for Urgent, missing information, and 24 hours since update
-    Then results match all three conditions
-    And contain only referrals the coordinator can access
-```
+## AC-P04: Access checks
 
-## AC-R05: Missing information
+For FR-P04:
 
-```gherkin
-Feature: Request missing information
-  Scenario: Send and track a request
-    Given a referral is missing a document
-    When the coordinator describes the missing item and selects the patient as recipient
-    And sends the request
-    Then it appears as Awaiting response in Referral details
-    When that patient provides the requested document
-    Then CarePath links it to the request and marks it Responded
-    And does not automatically accept or complete the referral
-
-  Scenario: Recipient is missing
-    When the coordinator sends a request without a recipient
-    Then CarePath shows an error and sends nothing
-```
-
-## AC-R06: Referral updates
-
-```gherkin
-Feature: Keep referral updates consistent
-  Scenario: Record a status change
-    When an authorized referral status change is saved
-    Then its history records the actor, time, previous status, and new status
-
-  Scenario: Duplicate external update
-    Given an external event has already been processed
-    When the same source sends that event identifier again
-    Then CarePath makes no duplicate change
-
-  Scenario: Unknown external status
-    When a trusted connected system sends an unmapped status
-    Then CarePath flags it for review and keeps the current status
-```
+1. A request made without signing in returns no patient information.
+2. A patient requesting another patient's record is denied access.
+3. Changing a record identifier in a direct request does not bypass the access check.
