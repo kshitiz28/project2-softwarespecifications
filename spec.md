@@ -156,3 +156,22 @@ Feature: Keep referral updates consistent
     When a trusted connected system sends an unmapped status
     Then CarePath flags it for review and keeps the current status
 ```
+
+# Nonfunctional Requirements
+
+The following list is in priority order: 1 is highest. Each item traces to the existing specification and includes a validation check.
+
+| ID      | Priority / quality | Requirement                                                                                                                                                                                                                 | Why it is needed / trace                                                                                         | Validation                                                                                                                    |
+| ------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| NFR-R01 | 1. Security        | Every request must verify the user and permitted patient/action, or authenticate a configured external source. Unauthorized requests return no patient data and change nothing.                                             | Domain Model access rule; FR-R02, FR-R05, FR-R06. Protects provider and patient information.                     | Try a signed-out request, a wrong provider, a wrong response recipient, and an untrusted external source; all must be denied. |
+| NFR-R02 | 2. Data integrity  | Save referral changes and their history together in one database transaction. A failed save leaves neither a partial change nor a success result. A stale review must be rejected if another user has changed the referral. | FR-R02, FR-R06; AC-R06. Conflicting reviews and incomplete history could misrepresent progress.                  | Force a save failure and two conflicting reviews; check rollback and rejection of the stale decision.                         |
+| NFR-R03 | 3. Privacy         | Use HTTPS outside local development and keep clinical text and documents out of ordinary application logs.                                                                                                                  | Domain Model supporting documents; FR-R03 and FR-R05. These operations handle sensitive care information.        | Check the deployed connection and inspect logs after submission, sharing, and response upload.                                |
+| NFR-R04 | 4. Performance     | For 20 simultaneous users and 10,000 referral records, 95% of referral-detail and filter requests must return within 2 seconds. Exclude file transfer and external-service time.                                            | FR-R04; AC-R04. Coordinators need practical access to delayed referrals.                                         | Run a load test with those records and users and measure response times.                                                      |
+| NFR-R05 | 5. Usability       | Show field-specific validation errors and preserve entered referral/request text after a validation failure. Show statuses as readable labels.                                                                              | AC-R01 missing destination; AC-R05 missing recipient. Users need to correct errors without re-entering the form. | Submit incomplete forms and check labels, errors, and retained values.                                                        |
+| NFR-R06 | 6. Testability     | Referral rules and external-update handling must be testable with a local test database and fixed external test events.                                                                                                     | FR-R01 through FR-R06. Their acceptance tests must not require real patient data or live integrations.           | Run AC-R01 through AC-R06 with fictional records and no external healthcare connection.                                       |
+
+# Non-goals
+
+- Billing and insurance approval.
+- Emergency triage and automated diagnosis.
+- Cross functionalities.
