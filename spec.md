@@ -113,3 +113,23 @@ Feature: Track task progress
     And task history records the change, actor, and time
     And the linked referral is not automatically completed
 ```
+
+# Nonfunctional Requirements
+
+The following list is in priority order: 1 is highest. These are proposed project targets, not measured results. Each item traces to the existing specification and includes a validation check.
+
+| ID | Priority / quality | Requirement | Why it is needed / trace | Validation |
+|---|---|---|---|---|
+| NFR-T01 | 1. Security | Check patient access and the permitted nurse/patient action on every task or document request. Only the assigned patient can complete the task. | FR-T01, FR-T02; Domain Model access rule. Tasks and documents belong to an identified patient. | Attempt assignment without nurse permission, completion by another patient, and an unauthorized document read. |
+| NFR-T02 | 2. Data integrity | Task completion and its history must commit together. Concurrent or repeated completion must retain one original completion time and one completion transition. | FR-T02, FR-T03; AC-T02 repeat completion. Partial or duplicate results would misstate progress. | Send simultaneous completion requests and force a database failure. |
+| NFR-T03 | 3. Privacy and upload safety | Use HTTPS outside local development. Enforce configured file size/type limits on the server and deny access to stored documents unless patient access is verified. | FR-T02; AC-T02 invalid upload. Browser-only restrictions cannot protect uploaded evidence. | Bypass browser validation and attempt an invalid upload and an unauthorized download. |
+| NFR-T04 | 4. Time accuracy | Use the server clock and UTC instants for due/completion comparisons; display times with their time zone. At or after completion, preserve the original timestamp. | FR-T01 through FR-T03; AC-T03. Due times must not depend on a client clock or ambiguous local time. | Use test clocks before and after a deadline and clients in different time zones. |
+| NFR-T05 | 5. Performance | For 20 simultaneous users and 10,000 tasks, 95% of task-list and task-detail requests must return within 2 seconds, excluding file transfer. | FR-T01 and FR-T03. Patients need timely access to assigned work. | Load-test task reads at the stated size and user count. |
+| NFR-T06 | 6. Usability | Display instructions, due time, status, and whether a document is required together. Show a clear validation error while keeping entered task instructions. | AC-T01 invalid details and AC-T02 missing document. Users should know how to correct an incomplete task. | Inspect assignment errors and an incomplete document-task screen. |
+
+
+# Non-goals
+
+- Billing and insurance approval.
+- Emergency triage and automated diagnosis.
+- Referral decisions, appointment changes, and reminder delivery are owned by the other CarePath functionalities.
