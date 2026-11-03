@@ -1,6 +1,6 @@
 # Description
 
-This part of CarePath covers Appointment Management. Administrative staff arrange appointments for accepted referrals and manage changes. Each appointment stays linked to the correct patient and referral. Referral decisions, patient tasks and reminder delivery are handled by the other team members.
+This part of CarePath covers Appointment Management. Administrative staff arrange appointments for accepted referrals and manage changes. Each appointment stays linked to the correct patient and referral.
 
 # Goals
 
@@ -86,7 +86,6 @@ For FR-A03:
 
 # Nonfunctional Requirements
 
-The following list is in priority order: 1 is highest. These are proposed project targets, not measured results. Each item traces to the existing specification and includes a validation check.
 
 | ID | Priority / quality | Requirement | Why it is needed / trace | Validation |
 |---|---|---|---|---|

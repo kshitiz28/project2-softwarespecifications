@@ -26,7 +26,6 @@ Appointment Management runs inside the same CarePath web application as the othe
 
 # 4. Design decisions
 
-No fixed language, framework, or hosting choice was supplied. Technology choices below are proposed preferences; each behavioral choice refers to its supporting section in spec.md.
 
 | Decision | Reason |
 |---|---|
