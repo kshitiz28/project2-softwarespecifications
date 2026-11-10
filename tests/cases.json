@@ -1,0 +1,3262 @@
+{
+  "AC-P01-1-summary": {
+    "id": "AC-P01-1-summary",
+    "title": "Show status, last update, requests, task and active appointment",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "patient_id": "p1",
+          "referrals": [
+            {
+              "id": "r1",
+              "status": "Accepted",
+              "updated_at": "2026-11-10T09:59:59Z",
+              "outstanding_requests": [
+                {
+                  "id": "req1",
+                  "item": "Summary PDF"
+                }
+              ],
+              "guidance": "Bring your existing report."
+            }
+          ],
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "t1",
+              "status": "Open",
+              "instructions": "Upload summary",
+              "due_at": "2026-11-11T10:00:00Z"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P01-2-none": {
+    "id": "AC-P01-2-none",
+    "title": "No outstanding actions",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "patient_id": "p1",
+          "tasks": [],
+          "next_action": "No action currently required"
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": []
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Completed",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P01-3-guidance": {
+    "id": "AC-P01-3-guidance",
+    "title": "Use recorded guidance only",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "referrals": [
+            {
+              "id": "r1",
+              "guidance": "Bring your existing report."
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-1-appointment": {
+    "id": "AC-P02-1-appointment",
+    "title": "Appointment reminder uses email preference",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 1,
+          "skipped": 0,
+          "failed": 0
+        },
+        "body": {},
+        "count": {
+          "notifications": 1
+        },
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "patient_id": "p1",
+              "channel": "email",
+              "status": "Submitted",
+              "object_id": "a1",
+              "scheduled_at": "2026-11-10T10:00:00Z"
+            }
+          ]
+        ],
+        "external": {
+          "send": 1
+        },
+        "send_payload": {
+          "channel": "email",
+          "destination": "p1@example.invalid",
+          "object_id": "a1"
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-1-task": {
+    "id": "AC-P02-1-task",
+    "title": "Task reminder uses text preference",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 1,
+          "skipped": 0,
+          "failed": 0
+        },
+        "body": {},
+        "count": {
+          "notifications": 1
+        },
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "patient_id": "p1",
+              "channel": "text",
+              "status": "Submitted",
+              "object_id": "t1",
+              "scheduled_at": "2026-11-10T10:00:00Z"
+            }
+          ]
+        ],
+        "external": {
+          "send": 1
+        },
+        "send_payload": {
+          "channel": "text",
+          "destination": "+15550100001",
+          "object_id": "t1"
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {},
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "text",
+          "address": "+15550100001"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-2-deduplicate": {
+    "id": "AC-P02-2-deduplicate",
+    "title": "Rerun produces no second send",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 1,
+          "skipped": 0,
+          "failed": 0
+        },
+        "body": {},
+        "count": {
+          "notifications": 1
+        },
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "patient_id": "p1",
+              "channel": "email",
+              "status": "Submitted",
+              "object_id": "a1",
+              "scheduled_at": "2026-11-10T10:00:00Z"
+            }
+          ]
+        ],
+        "external": {
+          "send": 1
+        },
+        "send_payload": {
+          "channel": "email",
+          "destination": "p1@example.invalid",
+          "object_id": "a1"
+        }
+      },
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "skipped": 1,
+          "failed": 0
+        },
+        "body": {},
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "send": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-3-canceled": {
+    "id": "AC-P02-3-canceled",
+    "title": "Suppress Canceled reminder",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "skipped": 1,
+          "failed": 0
+        },
+        "body": {},
+        "count": {
+          "notifications": 0
+        },
+        "external": {
+          "send": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Canceled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P02-1-appointment",
+    "concurrent": false
+  },
+  "AC-P02-3-completed": {
+    "id": "AC-P02-3-completed",
+    "title": "Suppress Completed reminder",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "skipped": 1,
+          "failed": 0
+        },
+        "body": {},
+        "count": {
+          "notifications": 0
+        },
+        "external": {
+          "send": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {},
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Completed",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P02-1-task",
+    "concurrent": false
+  },
+  "AC-P02-4-reschedule": {
+    "id": "AC-P02-4-reschedule",
+    "title": "Old unsent reminder is replaced at new time",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "failed": 0
+        },
+        "body": {},
+        "records": [
+          [
+            "notifications",
+            "old",
+            {
+              "status": "Superseded"
+            }
+          ]
+        ],
+        "external": {
+          "send": 0
+        }
+      },
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 1,
+          "failed": 0
+        },
+        "body": {},
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "scheduled_at": "2026-11-11T10:00:00Z",
+              "object_id": "a1",
+              "status": "Submitted"
+            }
+          ]
+        ],
+        "external": {
+          "send": 1
+        },
+        "clock": "2026-11-11T10:00:00Z",
+        "send_payload": {
+          "channel": "email",
+          "destination": "p1@example.invalid",
+          "object_id": "a1"
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-12T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      },
+      "notifications": {
+        "old": {
+          "id": "old",
+          "patient_id": "p1",
+          "object_id": "a1",
+          "channel": "email",
+          "scheduled_at": "2026-11-10T10:00:00Z",
+          "status": "Pending"
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-5-missing_contact": {
+    "id": "AC-P02-5-missing_contact",
+    "title": "No send when missing contact",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "skipped": 1,
+          "failed": 0
+        },
+        "body": {},
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "status": "Suppressed",
+              "reason": "missing_contact"
+            }
+          ]
+        ],
+        "external": {
+          "send": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {},
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P02-1-appointment",
+    "concurrent": false
+  },
+  "AC-P02-5-missing_timing": {
+    "id": "AC-P02-5-missing_timing",
+    "title": "No send when missing timing",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "skipped": 1,
+          "failed": 0
+        },
+        "body": {},
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "status": "Suppressed",
+              "reason": "missing_timing"
+            }
+          ]
+        ],
+        "external": {
+          "send": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {}
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P02-1-appointment",
+    "concurrent": false
+  },
+  "AC-P02-6-failure": {
+    "id": "AC-P02-6-failure",
+    "title": "Record failure without claiming receipt",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "skipped": 0,
+          "failed": 1
+        },
+        "body": {},
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "status": "Failed",
+              "delivered": false
+            }
+          ]
+        ],
+        "external": {
+          "send": 1
+        },
+        "send_payload": {
+          "channel": "email",
+          "destination": "p1@example.invalid",
+          "object_id": "a1"
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {
+      "send": {
+        "outcome": "failed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P02-1-appointment",
+    "concurrent": false
+  },
+  "AC-P03-1-authority": {
+    "id": "AC-P03-1-authority",
+    "title": "Representative with valid scoped authority",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "rep",
+        "fields": {
+          "patient_id": "p1",
+          "referrals": [
+            {
+              "id": "r1",
+              "status": "Accepted",
+              "updated_at": "2026-11-10T09:59:59Z",
+              "outstanding_requests": [
+                {
+                  "id": "req1",
+                  "item": "Summary PDF"
+                }
+              ],
+              "guidance": "Bring your existing report."
+            }
+          ],
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "t1",
+              "status": "Open",
+              "instructions": "Upload summary",
+              "due_at": "2026-11-11T10:00:00Z"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        },
+        "r2": {
+          "id": "r2",
+          "patient_id": "p2",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        },
+        "a2": {
+          "id": "a2",
+          "referral_id": "r2",
+          "patient_id": "p2",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        },
+        "t2": {
+          "id": "t2",
+          "patient_id": "p2",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r2"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P03-2-appt-only": {
+    "id": "AC-P03-2-appt-only",
+    "title": "Only appointment category returned",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "rep",
+        "fields": {
+          "patient_id": "p1",
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "referrals",
+          "tasks",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P03-3-expired": {
+    "id": "AC-P03-3-expired",
+    "title": "Reject expired authority",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 403,
+        "token": "rep",
+        "fields": {
+          "error": "forbidden"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "patient_id",
+          "referrals",
+          "tasks",
+          "appointments",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments"
+          ],
+          "expires_at": "2026-11-10T09:59:59Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "Expiry one second before request denied; future expiry accepted",
+    "control": "AC-P03-3-expired-control",
+    "concurrent": false
+  },
+  "AC-P03-3-expired-control": {
+    "id": "AC-P03-3-expired-control",
+    "title": "Control: Reject expired authority",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "rep",
+        "fields": {
+          "patient_id": "p1",
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "referrals",
+          "tasks",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments"
+          ],
+          "expires_at": "2026-11-10T10:00:01Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "Expiry one second before request denied; future expiry accepted",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P03-3-revoked": {
+    "id": "AC-P03-3-revoked",
+    "title": "Reject revoked authority",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 403,
+        "token": "rep",
+        "fields": {
+          "error": "forbidden"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "patient_id",
+          "referrals",
+          "tasks",
+          "appointments",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": true
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P03-3-revoked-control",
+    "concurrent": false
+  },
+  "AC-P03-3-revoked-control": {
+    "id": "AC-P03-3-revoked-control",
+    "title": "Control: Reject revoked authority",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "rep",
+        "fields": {
+          "patient_id": "p1",
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "referrals",
+          "tasks",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P03-3-missing": {
+    "id": "AC-P03-3-missing",
+    "title": "Reject missing authority",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 403,
+        "token": "rep",
+        "fields": {
+          "error": "forbidden"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "patient_id",
+          "referrals",
+          "tasks",
+          "appointments",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {},
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P03-3-missing-control",
+    "concurrent": false
+  },
+  "AC-P03-3-missing-control": {
+    "id": "AC-P03-3-missing-control",
+    "title": "Control: Reject missing authority",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "rep",
+        "fields": {
+          "patient_id": "p1",
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "referrals",
+          "tasks",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P04-1": {
+    "id": "AC-P04-1",
+    "title": "Reject unauthorized direct read",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 401,
+        "token": null,
+        "fields": {
+          "error": "unauthenticated"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "patient_id",
+          "referrals",
+          "tasks",
+          "appointments",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        },
+        "r2": {
+          "id": "r2",
+          "patient_id": "p2",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P04-1-control",
+    "concurrent": false
+  },
+  "AC-P04-1-control": {
+    "id": "AC-P04-1-control",
+    "title": "Control: Reject unauthorized direct read",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "patient_id": "p1",
+          "referrals": [
+            {
+              "id": "r1",
+              "status": "Accepted",
+              "updated_at": "2026-11-10T09:59:59Z",
+              "outstanding_requests": [
+                {
+                  "id": "req1",
+                  "item": "Summary PDF"
+                }
+              ],
+              "guidance": "Bring your existing report."
+            }
+          ],
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "t1",
+              "status": "Open",
+              "instructions": "Upload summary",
+              "due_at": "2026-11-11T10:00:00Z"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        },
+        "r2": {
+          "id": "r2",
+          "patient_id": "p2",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P04-2": {
+    "id": "AC-P04-2",
+    "title": "Reject unauthorized direct read",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 403,
+        "token": "other-patient",
+        "fields": {
+          "error": "forbidden"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "patient_id",
+          "referrals",
+          "tasks",
+          "appointments",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        },
+        "r2": {
+          "id": "r2",
+          "patient_id": "p2",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P04-2-control",
+    "concurrent": false
+  },
+  "AC-P04-2-control": {
+    "id": "AC-P04-2-control",
+    "title": "Control: Reject unauthorized direct read",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "patient_id": "p1",
+          "referrals": [
+            {
+              "id": "r1",
+              "status": "Accepted",
+              "updated_at": "2026-11-10T09:59:59Z",
+              "outstanding_requests": [
+                {
+                  "id": "req1",
+                  "item": "Summary PDF"
+                }
+              ],
+              "guidance": "Bring your existing report."
+            }
+          ],
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "t1",
+              "status": "Open",
+              "instructions": "Upload summary",
+              "due_at": "2026-11-11T10:00:00Z"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        },
+        "r2": {
+          "id": "r2",
+          "patient_id": "p2",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P04-3": {
+    "id": "AC-P04-3",
+    "title": "Reject unauthorized direct read",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p2/care-summary",
+        "status": 403,
+        "token": "patient",
+        "fields": {
+          "error": "forbidden"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "absent": [
+          "patient_id",
+          "referrals",
+          "tasks",
+          "appointments",
+          "next_action"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        },
+        "r2": {
+          "id": "r2",
+          "patient_id": "p2",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "AC-P04-3-control",
+    "concurrent": false
+  },
+  "AC-P04-3-control": {
+    "id": "AC-P04-3-control",
+    "title": "Control: Reject unauthorized direct read",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "patient_id": "p1",
+          "referrals": [
+            {
+              "id": "r1",
+              "status": "Accepted",
+              "updated_at": "2026-11-10T09:59:59Z",
+              "outstanding_requests": [
+                {
+                  "id": "req1",
+                  "item": "Summary PDF"
+                }
+              ],
+              "guidance": "Bring your existing report."
+            }
+          ],
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ],
+          "tasks": [
+            {
+              "id": "t1",
+              "status": "Open",
+              "instructions": "Upload summary",
+              "due_at": "2026-11-11T10:00:00Z"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        },
+        "r2": {
+          "id": "r2",
+          "patient_id": "p2",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-extra-early": {
+    "id": "AC-P02-extra-early",
+    "title": "FR-P02: one second before configured send time",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "failed": 0
+        },
+        "body": {},
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "send": 0
+        },
+        "clock": "2026-11-10T09:59:59Z"
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": true,
+    "boundary": "09:59:59 no send; 10:00:00 eligible (AC-P02-1-appointment).",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-extra-uncertain": {
+    "id": "AC-P02-extra-uncertain",
+    "title": "NFR-P03: uncertain provider outcome",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "failed": 0
+        },
+        "body": {},
+        "records": [
+          [
+            "notifications",
+            "notification-1",
+            {
+              "status": "Uncertain",
+              "delivered": false
+            }
+          ]
+        ],
+        "external": {
+          "send": 1
+        },
+        "send_payload": {
+          "channel": "email",
+          "destination": "p1@example.invalid",
+          "object_id": "a1"
+        }
+      },
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "failed": 0
+        },
+        "body": {},
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "send": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {
+      "send": {
+        "outcome": "timeout"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-P02-extra-concurrent": {
+    "id": "AC-P02-extra-concurrent",
+    "title": "NFR-P03: concurrent scans claim one reminder",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 1,
+          "failed": 0
+        },
+        "body": {},
+        "count": {
+          "notifications": 1
+        },
+        "external": {
+          "send": 1
+        }
+      },
+      {
+        "method": "POST",
+        "url": "/reminders/run",
+        "status": 200,
+        "token": "reminder-service",
+        "fields": {
+          "submitted": 0,
+          "failed": 0
+        },
+        "body": {},
+        "count": {
+          "notifications": 1
+        },
+        "external": {
+          "send": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {},
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": true,
+    "boundary": "",
+    "control": "",
+    "concurrent": true
+  },
+  "AC-P01-extra-freshness": {
+    "id": "AC-P01-extra-freshness",
+    "title": "NFR-P04: next read reflects committed cancellation",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "appointments": [
+            {
+              "id": "a1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "status": "Scheduled",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      },
+      {
+        "method": "GET",
+        "url": "/patients/p1/care-summary",
+        "status": 200,
+        "token": "patient",
+        "fields": {
+          "appointments": []
+        },
+        "unchanged": [
+          "*"
+        ],
+        "edit": [
+          [
+            "appointments",
+            "a1",
+            {
+              "id": "a1",
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "provider_id": "receiver",
+              "status": "Canceled",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "location": "Clinic A",
+              "external_booking_id": "ext1"
+            }
+          ]
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1,
+          "guidance": "Bring your existing report.",
+          "outstanding_requests": [
+            {
+              "id": "req1",
+              "item": "Summary PDF"
+            }
+          ]
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      },
+      "tasks": {
+        "t1": {
+          "id": "t1",
+          "patient_id": "p1",
+          "nurse_id": "nurse",
+          "instructions": "Upload summary",
+          "due_at": "2026-11-11T10:00:00Z",
+          "status": "Open",
+          "document_required": true,
+          "referral_id": "r1"
+        }
+      },
+      "authority": {
+        "rep:p1": {
+          "categories": [
+            "appointments",
+            "referrals",
+            "tasks"
+          ],
+          "expires_at": "2026-11-11T10:00:00Z",
+          "revoked": false
+        }
+      },
+      "preferences": {
+        "p1": {
+          "channel": "email",
+          "address": "p1@example.invalid"
+        }
+      },
+      "reminder_settings": {
+        "default": {
+          "offset_seconds": 86400
+        }
+      }
+    },
+    "external": {},
+    "extra": true,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  }
+}
