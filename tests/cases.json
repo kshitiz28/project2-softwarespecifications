@@ -1,0 +1,2646 @@
+{
+  "AC-A01-1-slots": {
+    "id": "AC-A01-1-slots",
+    "title": "List offered future slots",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "/referrals/r1/appointment-slots",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "items": [
+            {
+              "id": "s1",
+              "starts_at": "2026-11-11T10:00:00Z",
+              "provider_id": "receiver",
+              "location": "Clinic A"
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "slots": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-2-book": {
+    "id": "AC-A01-2-book",
+    "title": "Confirm and link appointment",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "external_booking_id": "ext1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "status": "Scheduled"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-3-unavailable": {
+    "id": "AC-A01-3-unavailable",
+    "title": "Unavailable slot",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "slot_unavailable"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "unavailable"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "AC-A01-3-unavailable-control",
+    "concurrent": false
+  },
+  "AC-A01-3-unavailable-control": {
+    "id": "AC-A01-3-unavailable-control",
+    "title": "Control: Unavailable slot",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "external_booking_id": "ext1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "status": "Scheduled"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-4-timeout": {
+    "id": "AC-A01-4-timeout",
+    "title": "Timeout, blocked retry, then reconcile",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 202,
+        "token": "staff",
+        "fields": {
+          "attempt_id": "attempt-1",
+          "outcome": "unresolved"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "unchanged": [
+          "appointments",
+          "history"
+        ],
+        "count": {
+          "booking_attempts": 1
+        },
+        "records": [
+          [
+            "booking_attempts",
+            "attempt-1",
+            {
+              "status": "Unresolved",
+              "referral_id": "r1"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        },
+        "absent": [
+          "appointment"
+        ]
+      },
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "attempt_unresolved"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "book": 0
+        }
+      },
+      {
+        "method": "POST",
+        "url": "/booking-attempts/attempt-1/reconcile",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "attempt_id": "attempt-1",
+          "outcome": "confirmed",
+          "status": "Scheduled"
+        },
+        "body": {},
+        "count": {
+          "appointments": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "status": "Scheduled",
+              "referral_id": "r1"
+            }
+          ]
+        ],
+        "external": {
+          "lookup": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "timeout",
+        "elapsed_ms": 10001
+      },
+      "lookup": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": false,
+    "boundary": "9.999s confirmed; 10.001s unresolved. Adapter must receive a 10-second timeout.",
+    "control": "AC-A01-4-control",
+    "concurrent": false
+  },
+  "AC-A01-4-control": {
+    "id": "AC-A01-4-control",
+    "title": "Control: booking completes before deadline",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "external_booking_id": "ext1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "status": "Scheduled"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A",
+        "elapsed_ms": 9999
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-5-concurrent": {
+    "id": "AC-A01-5-concurrent",
+    "title": "At most one booking survives concurrent calls",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "external_booking_id": "ext1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1,
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "status": "Scheduled"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        }
+      },
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "booking_conflict"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1,
+          "history": 1
+        },
+        "external": {
+          "book": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "status": "Scheduled",
+              "referral_id": "r1"
+            }
+          ]
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": false,
+    "boundary": "One active appointment allowed; second rejected.",
+    "control": "AC-A01-2-book",
+    "concurrent": true
+  },
+  "AC-A02-1-reschedule": {
+    "id": "AC-A02-1-reschedule",
+    "title": "Confirmed replacement retains referral link",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-12T10:00:00Z",
+          "referral_id": "r1"
+        },
+        "body": {
+          "action": "reschedule",
+          "slot_id": "s2",
+          "reason": "Patient requested another time"
+        },
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "starts_at": "2026-11-12T10:00:00Z",
+              "referral_id": "r1",
+              "external_booking_id": "ext2"
+            }
+          ]
+        ],
+        "external": {
+          "reschedule": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A02-2-rejected": {
+    "id": "AC-A02-2-rejected",
+    "title": "Rejected replacement preserves original",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "slot_unavailable"
+        },
+        "body": {
+          "action": "reschedule",
+          "slot_id": "s2",
+          "reason": "Patient requested another time"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "reschedule": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "unavailable"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "AC-A02-2-rejected-control",
+    "concurrent": false
+  },
+  "AC-A02-2-rejected-control": {
+    "id": "AC-A02-2-rejected-control",
+    "title": "Control: Rejected replacement preserves original",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-12T10:00:00Z",
+          "referral_id": "r1"
+        },
+        "body": {
+          "action": "reschedule",
+          "slot_id": "s2",
+          "reason": "Patient requested another time"
+        },
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "starts_at": "2026-11-12T10:00:00Z",
+              "referral_id": "r1",
+              "external_booking_id": "ext2"
+            }
+          ]
+        ],
+        "external": {
+          "reschedule": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A02-3-cancel": {
+    "id": "AC-A02-3-cancel",
+    "title": "Cancel without canceling referral",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Canceled",
+          "requested_by": "staff",
+          "reason": "Patient canceled"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "referrals"
+        ],
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "status": "Canceled"
+            }
+          ]
+        ],
+        "external": {
+          "cancel": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A02-4-reason": {
+    "id": "AC-A02-4-reason",
+    "title": "Reason missing",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 422,
+        "token": "staff",
+        "fields": {
+          "error": "validation_error",
+          "field": "reason"
+        },
+        "body": {
+          "action": "cancel"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "cancel": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "AC-A02-4-reason-control",
+    "concurrent": false
+  },
+  "AC-A02-4-reason-control": {
+    "id": "AC-A02-4-reason-control",
+    "title": "Control: Reason missing",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Canceled",
+          "requested_by": "staff",
+          "reason": "Patient canceled"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "referrals"
+        ],
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "status": "Canceled"
+            }
+          ]
+        ],
+        "external": {
+          "cancel": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A02-5-completed": {
+    "id": "AC-A02-5-completed",
+    "title": "Cannot change Completed",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "invalid_appointment_state"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "cancel": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Completed",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "Scheduled is changeable; Completed is not.",
+    "control": "AC-A02-5-completed-control",
+    "concurrent": false
+  },
+  "AC-A02-5-completed-control": {
+    "id": "AC-A02-5-completed-control",
+    "title": "Control: Cannot change Completed",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Canceled",
+          "requested_by": "staff",
+          "reason": "Patient canceled"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "referrals"
+        ],
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "status": "Canceled"
+            }
+          ]
+        ],
+        "external": {
+          "cancel": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "Scheduled is changeable; Completed is not.",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A02-5-canceled": {
+    "id": "AC-A02-5-canceled",
+    "title": "Cannot change Canceled",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "invalid_appointment_state"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "cancel": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Canceled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "Scheduled is changeable; Canceled is not.",
+    "control": "AC-A02-5-canceled-control",
+    "concurrent": false
+  },
+  "AC-A02-5-canceled-control": {
+    "id": "AC-A02-5-canceled-control",
+    "title": "Control: Cannot change Canceled",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Canceled",
+          "requested_by": "staff",
+          "reason": "Patient canceled"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "referrals"
+        ],
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "status": "Canceled"
+            }
+          ]
+        ],
+        "external": {
+          "cancel": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "Scheduled is changeable; Canceled is not.",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A02-5-no-show": {
+    "id": "AC-A02-5-no-show",
+    "title": "Cannot change No-show",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "invalid_appointment_state"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "cancel": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "No-show",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "Scheduled is changeable; No-show is not.",
+    "control": "AC-A02-5-no-show-control",
+    "concurrent": false
+  },
+  "AC-A02-5-no-show-control": {
+    "id": "AC-A02-5-no-show-control",
+    "title": "Control: Cannot change No-show",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Canceled",
+          "requested_by": "staff",
+          "reason": "Patient canceled"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "referrals"
+        ],
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "status": "Canceled"
+            }
+          ]
+        ],
+        "external": {
+          "cancel": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "Scheduled is changeable; No-show is not.",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A03-1-history": {
+    "id": "AC-A03-1-history",
+    "title": "Confirmed change adds actor/time/reason and before/after",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-12T10:00:00Z",
+          "referral_id": "r1"
+        },
+        "body": {
+          "action": "reschedule",
+          "slot_id": "s2",
+          "reason": "Patient requested another time"
+        },
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "starts_at": "2026-11-12T10:00:00Z",
+              "referral_id": "r1",
+              "external_booking_id": "ext2"
+            }
+          ]
+        ],
+        "external": {
+          "reschedule": 1
+        }
+      },
+      {
+        "method": "GET",
+        "url": "/appointments/a1/history",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "items": [
+            {
+              "actor_id": "staff",
+              "at": "2026-11-10T10:00:00Z",
+              "reason": "Patient requested another time",
+              "old": {
+                "starts_at": "2026-11-11T10:00:00Z",
+                "status": "Scheduled"
+              },
+              "new": {
+                "starts_at": "2026-11-12T10:00:00Z",
+                "status": "Scheduled"
+              }
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A03-2-append": {
+    "id": "AC-A03-2-append",
+    "title": "Later cancellation does not replace history",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-12T10:00:00Z",
+          "referral_id": "r1"
+        },
+        "body": {
+          "action": "reschedule",
+          "slot_id": "s2",
+          "reason": "Patient requested another time"
+        },
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "starts_at": "2026-11-12T10:00:00Z",
+              "referral_id": "r1",
+              "external_booking_id": "ext2"
+            }
+          ]
+        ],
+        "external": {
+          "reschedule": 1
+        }
+      },
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Canceled",
+          "requested_by": "staff",
+          "reason": "Patient canceled"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "referrals"
+        ],
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "status": "Canceled"
+            }
+          ]
+        ],
+        "external": {
+          "cancel": 1
+        },
+        "clock": "2026-11-10T10:00:01Z"
+      },
+      {
+        "method": "GET",
+        "url": "/appointments/a1/history",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "items": [
+            {
+              "actor_id": "staff",
+              "at": "2026-11-10T10:00:00Z",
+              "reason": "Patient requested another time",
+              "old": {
+                "starts_at": "2026-11-11T10:00:00Z",
+                "status": "Scheduled"
+              },
+              "new": {
+                "starts_at": "2026-11-12T10:00:00Z",
+                "status": "Scheduled"
+              }
+            },
+            {
+              "actor_id": "staff",
+              "at": "2026-11-10T10:00:01Z",
+              "reason": "Patient canceled",
+              "old": {
+                "starts_at": "2026-11-12T10:00:00Z",
+                "status": "Scheduled"
+              },
+              "new": {
+                "starts_at": "2026-11-12T10:00:00Z",
+                "status": "Canceled"
+              }
+            }
+          ]
+        },
+        "unchanged": [
+          "*"
+        ]
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A03-3-no-false-history": {
+    "id": "AC-A03-3-no-false-history",
+    "title": "Failed change does not create history",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "slot_unavailable"
+        },
+        "body": {
+          "action": "reschedule",
+          "slot_id": "s2",
+          "reason": "Patient requested another time"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "reschedule": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "unavailable"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "AC-A03-3-no-false-history-control",
+    "concurrent": false
+  },
+  "AC-A03-3-no-false-history-control": {
+    "id": "AC-A03-3-no-false-history-control",
+    "title": "Control: Failed change does not create history",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-12T10:00:00Z",
+          "referral_id": "r1"
+        },
+        "body": {
+          "action": "reschedule",
+          "slot_id": "s2",
+          "reason": "Patient requested another time"
+        },
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "starts_at": "2026-11-12T10:00:00Z",
+              "referral_id": "r1",
+              "external_booking_id": "ext2"
+            }
+          ]
+        ],
+        "external": {
+          "reschedule": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": false,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-extra-role": {
+    "id": "AC-A01-extra-role",
+    "title": "NFR-A01: patient cannot book as staff",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 403,
+        "token": "patient",
+        "fields": {
+          "error": "forbidden"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "book": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "AC-A01-extra-role-control",
+    "concurrent": false
+  },
+  "AC-A01-extra-role-control": {
+    "id": "AC-A01-extra-role-control",
+    "title": "Control: NFR-A01: patient cannot book as staff",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "external_booking_id": "ext1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "status": "Scheduled"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A02-extra-type": {
+    "id": "AC-A02-extra-type",
+    "title": "FR-A02: reason type",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 422,
+        "token": "staff",
+        "fields": {
+          "error": "validation_error",
+          "field": "reason"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": 42
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "cancel": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "AC-A02-extra-type-control",
+    "concurrent": false
+  },
+  "AC-A02-extra-type-control": {
+    "id": "AC-A02-extra-type-control",
+    "title": "Control: FR-A02: reason type",
+    "steps": [
+      {
+        "method": "PATCH",
+        "url": "/appointments/a1",
+        "status": 200,
+        "token": "staff",
+        "fields": {
+          "id": "a1",
+          "status": "Canceled",
+          "requested_by": "staff",
+          "reason": "Patient canceled"
+        },
+        "body": {
+          "action": "cancel",
+          "reason": "Patient canceled"
+        },
+        "unchanged": [
+          "referrals"
+        ],
+        "count": {
+          "history": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "a1",
+            {
+              "status": "Canceled"
+            }
+          ]
+        ],
+        "external": {
+          "cancel": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "reschedule": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext2",
+        "starts_at": "2026-11-12T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      },
+      "cancel": {
+        "outcome": "confirmed"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-extra-referral-state": {
+    "id": "AC-A01-extra-referral-state",
+    "title": "FR-A01: referral must be accepted",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "invalid_referral_state"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "book": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Under review",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "AC-A01-extra-referral-state-control",
+    "concurrent": false
+  },
+  "AC-A01-extra-referral-state-control": {
+    "id": "AC-A01-extra-referral-state-control",
+    "title": "Control: FR-A01: referral must be accepted",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "external_booking_id": "ext1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "status": "Scheduled"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-extra-slot-boundary": {
+    "id": "AC-A01-extra-slot-boundary",
+    "title": "FR-A01: slot must be in the future",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 422,
+        "token": "staff",
+        "fields": {
+          "error": "invalid_slot"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "book": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-10T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "Starts exactly now rejected; starts one second later accepted.",
+    "control": "AC-A01-extra-slot-boundary-control",
+    "concurrent": false
+  },
+  "AC-A01-extra-slot-boundary-control": {
+    "id": "AC-A01-extra-slot-boundary-control",
+    "title": "Control: FR-A01: slot must be in the future",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-10T10:00:01Z",
+          "referral_id": "r1",
+          "patient_id": "p1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1
+        },
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-10T10:00:01Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-10T10:00:01Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "Starts exactly now rejected; starts one second later accepted.",
+    "control": "",
+    "concurrent": false
+  },
+  "AC-A01-5-extra-active": {
+    "id": "AC-A01-5-extra-active",
+    "title": "FR-A01: second booking rejected after first is committed",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 409,
+        "token": "staff",
+        "fields": {
+          "error": "booking_conflict"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "unchanged": [
+          "*"
+        ],
+        "external": {
+          "book": 0
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      },
+      "appointments": {
+        "a1": {
+          "id": "a1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "provider_id": "receiver",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "location": "Clinic A",
+          "external_booking_id": "ext1"
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "AC-A01-5-extra-active-control",
+    "concurrent": false
+  },
+  "AC-A01-5-extra-active-control": {
+    "id": "AC-A01-5-extra-active-control",
+    "title": "Control: FR-A01: second booking rejected after first is committed",
+    "steps": [
+      {
+        "method": "POST",
+        "url": "/referrals/r1/appointments",
+        "status": 201,
+        "token": "staff",
+        "fields": {
+          "id": "appointment-1",
+          "referral_id": "r1",
+          "patient_id": "p1",
+          "status": "Scheduled",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "external_booking_id": "ext1"
+        },
+        "body": {
+          "slot_id": "s1"
+        },
+        "count": {
+          "appointments": 1
+        },
+        "records": [
+          [
+            "appointments",
+            "appointment-1",
+            {
+              "referral_id": "r1",
+              "patient_id": "p1",
+              "status": "Scheduled"
+            }
+          ]
+        ],
+        "external": {
+          "book": 1
+        }
+      }
+    ],
+    "seed": {
+      "referrals": {
+        "r1": {
+          "id": "r1",
+          "patient_id": "p1",
+          "referring_provider_id": "sender",
+          "receiving_provider_id": "receiver",
+          "service": "Cardiology",
+          "reason": "Consultation",
+          "urgency": "Urgent",
+          "status": "Accepted",
+          "updated_at": "2026-11-10T09:59:59Z",
+          "version": 1
+        }
+      }
+    },
+    "external": {
+      "slots": [
+        {
+          "id": "s1",
+          "starts_at": "2026-11-11T10:00:00Z",
+          "provider_id": "receiver",
+          "location": "Clinic A"
+        }
+      ],
+      "book": {
+        "outcome": "confirmed",
+        "external_booking_id": "ext1",
+        "starts_at": "2026-11-11T10:00:00Z",
+        "provider_id": "receiver",
+        "location": "Clinic A"
+      }
+    },
+    "extra": true,
+    "boundary": "",
+    "control": "",
+    "concurrent": false
+  }
+}
