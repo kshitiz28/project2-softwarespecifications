@@ -1,8 +1,3 @@
-"""Appointment management: the first two slices from plan.md.
-
-Later actions (reconciliation, changes, and history reads) are deliberately
-left as contract skeletons for the remaining slices.
-"""
 import json
 from datetime import datetime
 
@@ -59,8 +54,6 @@ def book_appointment(call: Call, *, access: AccessControl, store: Persistence,
         raise ContractError(422, "invalid_slot", "A slot_id is required.", "slot_id")
     slot_id = body["slot_id"]
 
-    # The no-active-booking requirement is checked here; a race-free atomic
-    # uniqueness guarantee across workers belongs to Slice 7.
     if any(a.get("referral_id") == referral["id"] and a.get("status") == "Scheduled"
            for a in store.list("appointments")):
         raise ContractError(409, "booking_conflict", "Referral already has an active appointment.")
@@ -82,8 +75,7 @@ def book_appointment(call: Call, *, access: AccessControl, store: Persistence,
     attempt_id = id_factory("attempt")
     pending = {"id": attempt_id, "referral_id": referral["id"],
                "slot_id": slot_id, "status": "Pending"}
-    # Reserve locally before requesting an external booking; do not hold a
-    # database transaction open during the external call.
+
     store.commit([Write("booking_attempts", attempt_id, pending, require_absent=True)])
     try:
         reply = schedule("book", {
@@ -94,7 +86,6 @@ def book_appointment(call: Call, *, access: AccessControl, store: Persistence,
             "provider_id": referral["receiving_provider_id"],
         }, 10)
     except TimeoutError as exc:
-        # The incomplete timeout path must not return a confirmed appointment.
         raise NotImplementedError("Timeout reconciliation belongs to Slice 6") from exc
     if reply.get("outcome") != "confirmed":
         raise NotImplementedError("Booking rejection handling belongs to Slice 5")
@@ -118,7 +109,6 @@ def book_appointment(call: Call, *, access: AccessControl, store: Persistence,
         "old": {},
         "new": {"starts_at": record["starts_at"], "status": "Scheduled"},
     }
-    # Appointment and initial history are committed in the same local update.
     store.commit([
         Write("appointments", appointment_id, record, require_absent=True),
         Write("history", appointment_id, {"appointment_id": appointment_id, "items": [initial_history]}, require_absent=True),
