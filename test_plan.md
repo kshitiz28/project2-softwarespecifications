@@ -1,4 +1,4 @@
-# CarePath test plan
+# CarePath test plan — Sangam
 
 Table refinement of the numbered acceptance checks in spec.md. Each unique test ID extends its original AC identifier.
 

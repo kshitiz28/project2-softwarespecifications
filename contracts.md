@@ -1,6 +1,6 @@
-# CarePath contracts
+# CarePath contracts — Sangam
 
-Proposed Python and HTTP interfaces for the attached specification. HTTP status codes, JSON field names and fictional fixtures are contract choices. The skeleton does not implement acceptance behavior. No new product requirement is added.
+These are proposed Python and HTTP interfaces for the attached specification. HTTP status codes, JSON field names and fictional fixtures are contract choices. The skeleton does not implement acceptance behavior. No new product requirement is added.
 
 ## 1. Public Python interfaces
 
