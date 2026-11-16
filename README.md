@@ -17,7 +17,7 @@ python -m pytest -q tests/test_skeleton.py
 python -m pytest -q --tb=line tests/test_acceptance.py
 ```
 
-The smoke check expects 501 from each documented route. Acceptance tests expect the actual future behavior and intentionally fail while it is missing. Use a different port if running several folders at once.
+The smoke check expects 501 from each documented route. Acceptance tests expect the actual future behavior and intentionally fail while it is missing. See test_results.txt for the run and one-line classification of each failure. Use a different port if running several folders at once.
 
 - contracts.md describes module signatures, injections and HTTP routes.
 - test_plan.md refines the source acceptance criteria and records unresolved spec gaps.
