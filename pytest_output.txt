@@ -1,0 +1,147 @@
+$ python -m pytest -vv --tb=line -p no:cacheprovider --junitxml=/tmp/carepath_task2_Milan_1.xml
+
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python
+rootdir: /workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.14.2
+collecting ... collected 30 items
+
+tests/test_acceptance.py::test_AC_T01_assign FAILED                      [  3%]
+tests/test_acceptance.py::test_AC_T01_instructions FAILED                [  6%]
+tests/test_acceptance.py::test_AC_T01_instructions_control FAILED        [ 10%]
+tests/test_acceptance.py::test_AC_T01_due_at FAILED                      [ 13%]
+tests/test_acceptance.py::test_AC_T01_due_at_control FAILED              [ 16%]
+tests/test_acceptance.py::test_AC_T01_due_at_past FAILED                 [ 20%]
+tests/test_acceptance.py::test_AC_T01_due_at_past_control FAILED         [ 23%]
+tests/test_acceptance.py::test_AC_T01_due_at_type FAILED                 [ 26%]
+tests/test_acceptance.py::test_AC_T01_due_at_type_control FAILED         [ 30%]
+tests/test_acceptance.py::test_AC_T02_evidence FAILED                    [ 33%]
+tests/test_acceptance.py::test_AC_T02_no_document FAILED                 [ 36%]
+tests/test_acceptance.py::test_AC_T02_no_document_control FAILED         [ 40%]
+tests/test_acceptance.py::test_AC_T02_size FAILED                        [ 43%]
+tests/test_acceptance.py::test_AC_T02_size_control FAILED                [ 46%]
+tests/test_acceptance.py::test_AC_T02_type FAILED                        [ 50%]
+tests/test_acceptance.py::test_AC_T02_type_control FAILED                [ 53%]
+tests/test_acceptance.py::test_AC_T02_repeat FAILED                      [ 56%]
+tests/test_acceptance.py::test_AC_T03_overdue FAILED                     [ 60%]
+tests/test_acceptance.py::test_AC_T03_extra_clock_before FAILED          [ 63%]
+tests/test_acceptance.py::test_AC_T03_extra_clock_after FAILED           [ 66%]
+tests/test_acceptance.py::test_AC_T02_extra_identity FAILED              [ 70%]
+tests/test_acceptance.py::test_AC_T02_extra_identity_control FAILED      [ 73%]
+tests/test_acceptance.py::test_AC_T02_extra_rollback FAILED              [ 76%]
+tests/test_acceptance.py::test_AC_T02_extra_rollback_control FAILED      [ 80%]
+tests/test_acceptance.py::test_AC_T02_extra_concurrent FAILED            [ 83%]
+tests/test_acceptance.py::test_AC_T01_extra_list_empty PASSED            [ 86%]
+tests/test_acceptance.py::test_AC_T02_extra_document_access FAILED       [ 90%]
+tests/test_acceptance.py::test_AC_T02_extra_document_access_control FAILED [ 93%]
+tests/test_acceptance.py::test_AC_T03_extra_offset FAILED                [ 96%]
+tests/test_skeleton.py::test_all_contract_routes_return_501 FAILED       [100%]
+
+=================================== FAILURES ===================================
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 413, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 413, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 415, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 415, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 500, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 500, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected concurrent HTTP statuses [200, 200], got [501, 501]
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:168: AssertionError: Expected concurrent HTTP statuses [200, 200], got [501, 501]
+E   AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   assert 401 == 501
+     +  where 401 = <Response [401 Unauthorized]>.status_code
+/workspace/scratch/70558a1fe530/output/CarePath_Task2/Milan/slice_01/tests/test_skeleton.py:10: assert 401 == 501
+=============================== warnings summary ===============================
+../../../../../../../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/anyio/pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+../../../../../../../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+------------- generated xml file: /tmp/carepath_task2_Milan_1.xml --------------
+=========================== short test summary info ============================
+FAILED tests/test_acceptance.py::test_AC_T01_assign - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_instructions - AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_instructions_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_due_at - AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_due_at_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_due_at_past - AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_due_at_past_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_due_at_type - AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T01_due_at_type_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_evidence - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_no_document - AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_no_document_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_size - AssertionError: Expected HTTP 413, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_size_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_type - AssertionError: Expected HTTP 415, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_type_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_repeat - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_overdue - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_extra_clock_before - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_extra_clock_after - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_identity - AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_identity_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_rollback - AssertionError: Expected HTTP 500, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_rollback_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_concurrent - AssertionError: Expected concurrent HTTP statuses [200, 200], got [501, 501]
+FAILED tests/test_acceptance.py::test_AC_T02_extra_document_access - AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_document_access_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_extra_offset - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_skeleton.py::test_all_contract_routes_return_501 - assert 401 == 501
+ +  where 401 = <Response [401 Unauthorized]>.status_code
+=================== 29 failed, 1 passed, 2 warnings in 0.31s ===================
