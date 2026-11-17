@@ -1,6 +1,6 @@
 # Implementation plan — Referral Management and Tracking
 
-Member: Kshitiz. Sources: the existing spec.md, architecture.md, contracts.md, test_plan.md, pytest cases and FastAPI skeleton. Planning only; application and test files are unchanged.
+Sources: the existing spec.md, architecture.md, contracts.md, test_plan.md, pytest cases and FastAPI skeleton. Planning only; application and test files are unchanged.
 
 ## Baseline and failures by criterion
 
