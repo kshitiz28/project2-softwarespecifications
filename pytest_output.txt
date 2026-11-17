@@ -1,0 +1,66 @@
+.........FFFFFFFFFFFFFFFF.FFFF                                           [100%]
+=================================== FAILURES ===================================
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 413, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 413, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 415, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 415, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 500, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 500, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected concurrent HTTP statuses [200, 200], got [501, 501]
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:168: AssertionError: Expected concurrent HTTP statuses [200, 200], got [501, 501]
+E   AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+E   AssertionError: Expected HTTP 201, got 422; body={"error":"validation_error","message":"The referral must belong to this patient.","field":"referral_id"}
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/support.py:122: AssertionError: Expected HTTP 201, got 422; body={"error":"validation_error","message":"The referral must belong to this patient.","field":"referral_id"}
+E   assert 422 == 501
+     +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+/mnt/data/milan_rebuild_work/CarePath_Task2/Milan/slice_02/tests/test_skeleton.py:7: assert 422 == 501
+=========================== short test summary info ============================
+FAILED tests/test_acceptance.py::test_AC_T02_evidence - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_no_document - AssertionError: Expected HTTP 422, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_no_document_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_size - AssertionError: Expected HTTP 413, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_size_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_type - AssertionError: Expected HTTP 415, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_type_control - AssertionError: Expected HTTP 201, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_repeat - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_overdue - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_extra_clock_before - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_extra_clock_after - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_identity - AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_identity_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_rollback - AssertionError: Expected HTTP 500, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_rollback_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_concurrent - AssertionError: Expected concurrent HTTP statuses [200, 200], got [501, 501]
+FAILED tests/test_acceptance.py::test_AC_T02_extra_document_access - AssertionError: Expected HTTP 403, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T02_extra_document_access_control - AssertionError: Expected HTTP 200, got 501; body={"error":"not_implemented","message":"CarePath behavior is not implemented."}
+FAILED tests/test_acceptance.py::test_AC_T03_extra_offset - AssertionError: Expected HTTP 201, got 422; body={"error":"validation_error","message":"The referral must belong to this patient.","field":"referral_id"}
+FAILED tests/test_skeleton.py::test_all_contract_routes_return_501 - assert 422 == 501
+ +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+20 failed, 10 passed in 0.42s
